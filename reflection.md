@@ -34,12 +34,19 @@ The three core actions a user should be able to perform in PawPal+ are:
 **a. Constraints and priorities**
 
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
+  - **Time budget** — the owner sets a daily available minutes value, and the scheduler will never exceed it. Tasks that do not fit are skipped entirely.
+  - **Priority** — each task is labeled high, medium, or low. The scheduler always places high-priority tasks first so that critical care (medication, feeding) is not pushed out by optional activities.
+  - **Duration** — within the same priority level, shorter tasks are scheduled before longer ones so that more tasks can fit into the remaining time.
+  - **Completion status** — already-completed tasks are excluded from the schedule. Recurring tasks (daily/weekly) are automatically reset when they are due again, so they re-enter the schedule on the correct day without manual intervention.
 - How did you decide which constraints mattered most?
+  - Time and priority were the most important because they directly affect pet welfare — a pet cannot skip medication because the owner ran out of time. Duration as a tiebreaker and recurrence handling were added second because they improve how many tasks actually get done each day without changing the core priority logic.
 
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
+  - The scheduler uses a greedy, single-track algorithm: it sorts all tasks by priority (then shortest duration), then walks the list and assigns each task the next available time slot — one after another. This means `detect_time_conflicts()` will never report a conflict in a normally-built schedule, because tasks are placed sequentially by construction and cannot overlap. A more realistic model would build a separate time track per pet (so Dog A's walk and Cat B's feeding run in parallel), which would expose genuine conflicts when the owner cannot physically do two things at once.
 - Why is that tradeoff reasonable for this scenario?
+  - For a single owner managing one or two pets, a sequential schedule is simple to read and easy to follow — the owner just works down the list. The complexity of parallel per-pet tracks is not worth the added confusion for the target user. The `detect_time_conflicts()` method is still correct and useful: it is ready to catch real overlaps if start times are ever assigned manually or if a multi-track scheduler is added later, without any changes to its logic.
 
 ---
 

@@ -22,6 +22,20 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## Smarter Scheduling
+
+The scheduler has been extended with four improvements beyond basic priority ordering:
+
+- **Sort by duration within priority** — when two tasks share the same priority, the shorter one is scheduled first. This fits more tasks into the available time budget instead of letting a long task block smaller ones behind it.
+
+- **Recurring task support** — tasks track a `last_completed_date`. A `daily` task resets automatically the next day, a `weekly` task resets after 7 days, and an `as needed` task stays completed until the owner manually resets it. Completing a `daily` or `weekly` task via `mark_completed()` automatically creates a fresh pending instance for the next occurrence.
+
+- **Filter by pet and status** — `Scheduler.get_tasks_for_pet(name)` returns all tasks for a specific pet; `Scheduler.get_tasks_by_status(completed)` filters across all pets by done or pending. Both filters are available as dropdowns in the UI.
+
+- **Conflict detection** — two methods catch problems before they affect the owner:
+  - `detect_conflicts()` warns about duplicate task titles, high-priority tasks that together exceed the time budget, and any single task that can never fit.
+  - `detect_time_conflicts(scheduled)` checks every pair of scheduled tasks for overlapping time windows using each task's assigned `start_time`, and returns a plain warning string for each overlap found without crashing the app.
+
 ## Getting started
 
 ### Setup
