@@ -55,12 +55,16 @@ The three core actions a user should be able to perform in PawPal+ are:
 **a. How you used AI**
 
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
+  - I used AI to write menial lines of code for me, focusing myself more on the bigger picture and direction of the project. I also used AI to help me spot inefficient lines of code and parts where the code could be improved.
 - What kinds of prompts or questions were most helpful?
+  - The most helpful prompts and questions were the ones where I was specific in what I wanted the AI to do without being too strict on the implementation, that way the AI was able to go about it in the most efficient manner
 
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
+  - One moment where I did not accept an AI suggestion as-is was when working through the actual implementation of the objects, the AI suggested making extra steps to make a product that would theoretically be better for the end user, but strayed away from the actual goals I was asking. Essentially adding extra features that could go wrong
 - How did you evaluate or verify what the AI suggested?
+  - I evaluated by reading through suggested code and making sure that the AI was not taking steps I did not need or want in the code
 
 ---
 
@@ -69,12 +73,16 @@ The three core actions a user should be able to perform in PawPal+ are:
 **a. What you tested**
 
 - What behaviors did you test?
+  - Sorting correctness — verified that scheduled tasks are assigned start times in ascending order and that same-priority tasks sort shorter-first. Recurrence logic — confirmed that completing a daily task spawns exactly one new pending instance that starts fresh. Conflict detection — checked that overlapping time windows are flagged, abutting tasks are not, duplicate titles warn, and high-priority tasks that exceed the budget trigger a warning.
 - Why were these tests important?
+  - These three areas are the core of the scheduler's value. If sorting is wrong, lower-priority tasks could block critical care. If recurrence breaks, daily tasks silently disappear after one completion. If conflict detection gives false positives or misses real issues, the owner gets misleading warnings. Getting these right is what makes the app trustworthy.
 
 **b. Confidence**
 
 - How confident are you that your scheduler works correctly?
+  - Fairly confident — 25 tests cover the scheduling contract end to end and all pass. The main gap is the Streamlit UI layer, which has no automated tests, so visual or interaction bugs could still exist there.
 - What edge cases would you test next if you had more time?
+  - An owner with multiple pets where two pets share a task title, to confirm `mark_completed` targets the right pet. A weekly task completed exactly 6 days ago to make sure it does not reset early. And a schedule where `available_minutes` equals the duration of one task exactly, to confirm the boundary is inclusive.
 
 ---
 
@@ -83,11 +91,18 @@ The three core actions a user should be able to perform in PawPal+ are:
 **a. What went well**
 
 - What part of this project are you most satisfied with?
+  - I was most satisfied by the fact that I learned how to use AI to work through longer projects with multiple steps and facets. 
 
 **b. What you would improve**
-
 - If you had another iteration, what would you improve or redesign?
+  - I would improve the UI of the app, even though it works well the user has no choice but to click through multiple input fields to add details they want and have to scroll up and down, making it less user-friendly
 
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+  - One important thing I learned about designing systems is that it is important to understand that your initial UML may not accurately capture all the needed functions for a project, and that you should not waste time trying to predict every method you may need, instead using the UML to build relationships and have a map that you plan to follow, even if you will add in new items and maybe leave some stuff out
+
+---
+
+## Demo
+![alt text](image.png)

@@ -5,47 +5,59 @@ classDiagram
     class Owner {
         +String name
         +int available_minutes
-        +get_available_time() int
+        -_pets : list
+        +add_pet(pet) None
+        +remove_pet(name) None
+        +get_pets() list
+        +get_all_tasks() list
+        +get_all_pending_tasks() list
     }
 
     class Pet {
         +String name
         +String species
-        +Owner owner
+        -_tasks : list
+        +add_task(task) None
+        +remove_task(title) None
         +get_tasks() list
+        +get_pending_tasks() list
     }
 
     class Task {
         +String title
         +int duration_minutes
         +String priority
+        +String frequency
         +String category
+        +bool completed
+        +String last_completed_date
+        +int start_time
+        +complete(today) None
+        +reset() None
+        +is_due(today) bool
+        +next_occurrence() Task
         +is_high_priority() bool
         +to_dict() dict
     }
 
-    class Schedule {
-        +list tasks
-        +int total_duration
-        +String explanation
-        +add_task(task) None
-        +get_total_duration() int
-        +display() str
-    }
-
     class Scheduler {
-        +int available_minutes
-        +list tasks
-        +run() Schedule
-        +prioritize(tasks) list
-        +explain(schedule) str
+        +Owner owner
+        +build_schedule() list
+        +_sorted_tasks(tasks) list
+        +explain(scheduled) str
+        +get_tasks_for_pet(name) list
+        +get_tasks_by_status(completed) list
+        +mark_completed(title, today) bool
+        +reset_all(today) None
+        +detect_conflicts() list
+        +detect_time_conflicts(scheduled) list
     }
 
-    Owner "1" --> "1" Pet : owns
+    Owner "1" --> "many" Pet : owns
     Pet "1" --> "many" Task : has
-    Scheduler --> Schedule : produces
+    Scheduler --> Owner : owns
     Scheduler ..> Task : uses
-    Scheduler ..> Owner : reads constraints from
+    Task ..> Task : next_occurrence()
 ```
 
 ## Arrow Key
