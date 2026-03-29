@@ -13,13 +13,20 @@ The three core actions a user should be able to perform in PawPal+ are:
 3. **Generate and review a daily plan** — A user should be able to ask the app to produce a recommended daily schedule based on their available time and task priorities, and see a clear explanation of why those tasks were chosen and in what order.
 
 - Briefly describe your initial UML design.
+  - Five classes connected by ownership and usage relationships: Owner → Pet → Task, with a Scheduler that reads constraints from Owner and Tasks to produce a Schedule.
 - What classes did you include, and what responsibilities did you assign to each?
+  - **Owner** — stores the owner's name and daily time budget.
+  - **Pet** — stores pet info and links the owner to their tasks.
+  - **Task** — stores a single care activity (title, duration, priority, category).
+  - **Schedule** — holds the ordered output of a scheduling run and an explanation.
+  - **Scheduler** — sorts tasks by priority, fits them into the time budget, and produces a Schedule.
 
 **b. Design changes**
 
 - Did your design change during implementation?
+  - Yes
 - If yes, describe at least one change and why you made it.
-
+  - Claude code helped me realize a scheduler object would be helpful and make sure that tasks are sorted properly and make sense within the overall schedule, helping make the app more organized
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
